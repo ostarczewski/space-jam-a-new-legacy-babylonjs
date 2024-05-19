@@ -13,6 +13,8 @@ import {
 import * as cannon from "cannon";
 import { WoodProceduralTexture } from "babylonjs-procedural-textures";
 
+import {Environment} from "./environment"
+
 var canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
 
 // Load the 3D engine
@@ -49,8 +51,8 @@ var createScene = async function () {
   //enable physics and set gravity force.
   scene.enablePhysics(new Vector3(0, -3, 0), cannonPlugin);
 
-  // Create the default environment
-  const env = scene.createDefaultEnvironment();
+  const environment = new Environment(scene, engine);
+  environment.init();
 
   // Create a floor in the scene and position it to the center
   var gymFloor = MeshBuilder.CreateGround("ground", { width: 60, height: 60 }, scene);
@@ -75,7 +77,7 @@ var createScene = async function () {
   // Create PhotoDome with a .png image and add it to the scene
   var dome = new PhotoDome(
     "mydome",
-    "src/assets/Looney-Court.png",
+    "https://sjanlassets.blob.core.windows.net/assets/Looney-Court.png",
     {
         resolution: 32,
         size: 100
